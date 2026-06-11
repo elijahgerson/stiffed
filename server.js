@@ -99,6 +99,39 @@ async function sendEmail({ to, cc, subject, body, from }) {
   })
 }
 
+// TEST endpoint — bypasses payment, sends letters directly
+app.post('/api/test-claim', async (req, res) => {
+  const { yourName, yourEmail, yourJob, clientName, clientEmail, amount, daysOverdue, workDesc, testKey } = req.body
+
+  if (testKey !== process.env.TEST_KEY) {
+    return res.status(403).json({ error: 'Invalid test key.' })
+  }
+
+  const claimId = uuidv4()
+  const claims = loadClaims()
+  claims[claimId] = {
+    id: claimId, status: 'active',
+    yourName, yourEmail, yourJob,
+    clientName, clientEmail,
+    amount, daysOverdue, workDesc,
+    createdAt: new Date().toISOString(),
+    letters: [], sentAt: [], paidAt: new Date().toISOString(),
+    sendLetter2At: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
+    sendLetter3At: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString()
+  }
+
+  try {
+    const letters = await generateLetters(claims[claimId])
+    claims[claimId].letters = letters
+    await sendEmail({ to: clientEmail, cc: yourEmail, subject: letters.letter1.subject, body: letters.letter1.body })
+    claims[claimId].sentAt[0] = new Date().toISOString()
+    saveClaims(claims)
+    res.json({ claimId, success: true })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // Create Stripe checkout session
 app.post('/api/create-checkout', async (req, res) => {
   const { yourName, yourEmail, yourJob, clientName, clientEmail, amount, daysOverdue, workDesc } = req.body
