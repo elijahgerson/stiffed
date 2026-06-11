@@ -13,7 +13,11 @@ const app = express()
 app.use(express.json())
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, timeout: 120000 })
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+  timeout: 120000,
+  maxRetries: 3
+})
 
 // Simple file-based store for claims (swap for a real DB later)
 const CLAIMS_FILE = join(__dirname, 'claims.json')
@@ -73,7 +77,7 @@ Letter 3 (Day 15): Final demand before filing. State that small claims court pap
 Make each letter highly specific to the work described. Use formal language. Sign each letter with the freelancer's full name.`
 
   const message = await anthropic.messages.create({
-    model: 'claude-haiku-4-5',
+    model: 'claude-sonnet-4-6',
     max_tokens: 2000,
     messages: [{ role: 'user', content: prompt }]
   })
