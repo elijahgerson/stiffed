@@ -13,7 +13,7 @@ const app = express()
 app.use(express.json())
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, timeout: 120000 })
 
 // Simple file-based store for claims (swap for a real DB later)
 const CLAIMS_FILE = join(__dirname, 'claims.json')
