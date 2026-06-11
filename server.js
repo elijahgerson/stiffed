@@ -120,16 +120,22 @@ app.post('/api/test-claim', async (req, res) => {
     sendLetter3At: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString()
   }
 
-  try {
-    const letters = await generateLetters(claims[claimId])
-    claims[claimId].letters = letters
-    await sendEmail({ to: clientEmail, cc: yourEmail, subject: letters.letter1.subject, body: letters.letter1.body })
-    claims[claimId].sentAt[0] = new Date().toISOString()
-    saveClaims(claims)
-    res.json({ claimId, success: true })
-  } catch (err) {
-    res.status(500).json({ error: err.message })
-  }
+  // Return immediately, process in background
+  res.json({ claimId, success: true, message: 'Claim filed. Letters generating — check your email in ~30 seconds.' })
+
+  // Process async
+  ;(async () => {
+    try {
+      const letters = await generateLetters(claims[claimId])
+      claims[claimId].letters = letters
+      await sendEmail({ to: clientEmail, cc: yourEmail, subject: letters.letter1.subject, body: letters.letter1.body })
+      claims[claimId].sentAt[0] = new Date().toISOString()
+      saveClaims(claims)
+      console.log(`Test claim ${claimId} — letter sent to ${clientEmail}`)
+    } catch (err) {
+      console.error('Test claim error:', err.message)
+    }
+  })()
 })
 
 // Create Stripe checkout session
