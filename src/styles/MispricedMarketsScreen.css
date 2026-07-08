@@ -1,0 +1,244 @@
+.mispriced-markets-screen {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.mispriced-markets-screen .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.mispriced-markets-screen h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #1a1a1a;
+}
+
+.mispriced-markets-screen .refresh-btn {
+  padding: 0.75rem 1.5rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mispriced-markets-screen .refresh-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.mispriced-markets-screen .refresh-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.mispriced-markets-screen .timestamp {
+  color: #666;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.mispriced-markets-screen .error-banner {
+  background: #fee;
+  color: #c33;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #c33;
+}
+
+.mispriced-markets-screen .loading,
+.mispriced-markets-screen .no-markets {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.mispriced-markets-screen .markets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.mispriced-markets-screen .market-card {
+  border: 1px solid #ddd;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.mispriced-markets-screen .market-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #2563eb;
+}
+
+.mispriced-markets-screen .market-header {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.mispriced-markets-screen .market-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  flex: 1;
+  color: #1a1a1a;
+}
+
+.mispriced-markets-screen .ticker {
+  background: #f0f0f0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #666;
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+
+.mispriced-markets-screen .market-details {
+  padding: 1rem;
+}
+
+.mispriced-markets-screen .detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.mispriced-markets-screen .detail-row:last-of-type {
+  margin-bottom: 0;
+}
+
+.mispriced-markets-screen .label {
+  color: #666;
+  font-weight: 500;
+}
+
+.mispriced-markets-screen .value {
+  color: #1a1a1a;
+  text-align: right;
+  font-weight: 500;
+}
+
+.mispriced-markets-screen .score {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: bold;
+}
+
+.mispriced-markets-screen .score-1,
+.mispriced-markets-screen .score-2 {
+  background: #dbeafe;
+  color: #0c4a6e;
+}
+
+.mispriced-markets-screen .score-3 {
+  background: #fef3c7;
+  color: #78350f;
+}
+
+.mispriced-markets-screen .score-4,
+.mispriced-markets-screen .score-5 {
+  background: #fee2e2;
+  color: #7f1d1d;
+}
+
+.mispriced-markets-screen .concerns {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.mispriced-markets-screen .concerns .label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.mispriced-markets-screen .concerns ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.mispriced-markets-screen .concerns li {
+  color: #d97706;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.mispriced-markets-screen .market-footer {
+  padding: 0 1rem 1rem;
+}
+
+.mispriced-markets-screen .trade-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.mispriced-markets-screen .trade-btn:hover {
+  background: #1d4ed8;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mispriced-markets-screen {
+    background: #1a1a1a;
+    color: #e0e0e0;
+  }
+
+  .mispriced-markets-screen h1 {
+    color: #fff;
+  }
+
+  .mispriced-markets-screen .market-card {
+    background: #2a2a2a;
+    border-color: #444;
+  }
+
+  .mispriced-markets-screen .market-header {
+    border-bottom-color: #444;
+  }
+
+  .mispriced-markets-screen .market-header h3 {
+    color: #fff;
+  }
+
+  .mispriced-markets-screen .ticker {
+    background: #333;
+    color: #999;
+  }
+
+  .mispriced-markets-screen .label {
+    color: #999;
+  }
+
+  .mispriced-markets-screen .value {
+    color: #e0e0e0;
+  }
+
+  .mispriced-markets-screen .detail-row {
+    border-bottom-color: #444;
+  }
+
+  .mispriced-markets-screen .concerns {
+    border-top-color: #444;
+  }
+}

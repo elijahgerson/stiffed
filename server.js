@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
 import Anthropic from '@anthropic-ai/sdk'
+import KalshiAnalyzer from './src/utils/kalshiAnalyzer.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -315,6 +316,27 @@ cron.schedule('0 * * * *', async () => {
   }
 
   saveClaims(claims)
+})
+
+// Find mispriced ITF Kalshi markets
+app.get('/api/kalshi/mispriced-itf', async (req, res) => {
+  if (!process.env.KALSHI_API_KEY) {
+    return res.status(400).json({ error: 'KALSHI_API_KEY not configured' })
+  }
+
+  try {
+    const analyzer = new KalshiAnalyzer(process.env.KALSHI_API_KEY)
+    const mispricedMatches = await analyzer.findMispricedMatches()
+
+    res.json({
+      timestamp: new Date().toISOString(),
+      matchesFound: mispricedMatches.length,
+      matches: mispricedMatches.slice(0, 20) // Return top 20
+    })
+  } catch (err) {
+    console.error('Kalshi analysis error:', err)
+    res.status(500).json({ error: 'Failed to analyze Kalshi markets', details: err.message })
+  }
 })
 
 // Serve frontend
